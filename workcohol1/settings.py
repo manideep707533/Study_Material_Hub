@@ -1,0 +1,6 @@
+# ... existing settings ...
+
+# Add or update this line
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ... rest of settings ...

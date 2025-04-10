@@ -1,0 +1,112 @@
+/* Global Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #1c1d1f;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    padding: 0.5rem 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1c1d1f;
+}
+
+.navbar-brand i {
+    color: #5624d0;
+}
+
+.nav-link {
+    color: #1c1d1f;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #5624d0;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(145deg, #5624d0 0%, #7b68ee 100%);
+    padding: 4rem 0;
+}
+
+/* Category Cards */
+.category-item .card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.categories-slider {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.categories-slider::-webkit-scrollbar {
+    display: none;
+}
+
+/* Course Cards */
+.card {
+    border: none;
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card-img-top {
+    border-radius: 8px 8px 0 0;
+}
+
+.card-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.ratings {
+    font-size: 0.9rem;
+}
+
+/* Buttons */
+.btn {
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.btn-light:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2rem 0;
+    }
+    
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .lead {
+        font-size: 1rem;
+    }
+    
+    .category-item .card {
+        min-width: 150px;
+    }
+}

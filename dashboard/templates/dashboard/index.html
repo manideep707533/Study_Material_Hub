@@ -1,0 +1,165 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section with Timer -->
+<section class="hero-section bg-purple text-white py-5 text-center">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8 mx-auto">
+                <h1 class="display-4 mb-3">New to Learning? Lucky you.</h1>
+                <p class="lead mb-4">Courses start at ₹449. Get your new-student offer before it expires.</p>
+                <div class="timer mb-4">
+                    <span id="hours">5</span>h <span id="minutes">59</span>m <span id="seconds">45</span>s
+                </div>
+                <a href="{% url 'register' %}" class="btn btn-light btn-lg">Sign up now</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Course Categories -->
+<section class="categories-section py-5">
+    <div class="container">
+        <h2 class="section-title mb-4">All the skills you need in one place</h2>
+        <p class="section-subtitle mb-5">From critical skills to technical topics, we support your professional development.</p>
+        
+        <div class="categories-slider">
+            <div class="d-flex flex-nowrap overflow-auto pb-3">
+                <div class="category-item mx-2">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-robot mb-3"></i>
+                                <h5 class="card-title">ChatGPT</h5>
+                                <p class="learners">48K learners</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="category-item mx-2">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-database mb-3"></i>
+                                <h5 class="card-title">Data Science</h5>
+                                <p class="learners">76K learners</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="category-item mx-2">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <i class="fab fa-python mb-3"></i>
+                                <h5 class="card-title">Python</h5>
+                                <p class="learners">47K learners</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Add more categories as needed -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Courses -->
+<section class="featured-courses py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title mb-4">Featured Courses</h2>
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Course thumbnail">
+                    <div class="card-body">
+                        <h5 class="card-title">The Complete AI Guide</h5>
+                        <p class="card-text">Learn ChatGPT, Generative AI & More</p>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="ratings">
+                                <i class="fas fa-star text-warning"></i>
+                                <span>4.5</span>
+                                <span class="text-muted">(46,172)</span>
+                            </div>
+                        </div>
+                        <p class="price">
+                            <span class="current-price">₹499</span>
+                            <span class="original-price text-muted text-decoration-line-through">₹2,799</span>
+                        </p>
+                        <span class="badge bg-purple">Premium</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more course cards as needed -->
+        </div>
+    </div>
+</section>
+
+<!-- Custom styles -->
+<style>
+.bg-purple {
+    background-color: #5624d0;
+}
+.timer span {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.category-item .card {
+    transition: transform 0.3s;
+    min-width: 200px;
+}
+.category-item .card:hover {
+    transform: translateY(-5px);
+}
+.category-item i {
+    font-size: 2rem;
+    color: #5624d0;
+}
+.learners {
+    font-size: 0.9rem;
+    color: #6a6f73;
+}
+.price .current-price {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.badge.bg-purple {
+    background-color: #5624d0;
+}
+</style>
+
+<!-- Timer Script -->
+<script>
+function updateTimer() {
+    const hours = document.getElementById('hours');
+    const minutes = document.getElementById('minutes');
+    const seconds = document.getElementById('seconds');
+    
+    let h = parseInt(hours.textContent);
+    let m = parseInt(minutes.textContent);
+    let s = parseInt(seconds.textContent);
+    
+    s--;
+    if (s < 0) {
+        s = 59;
+        m--;
+        if (m < 0) {
+            m = 59;
+            h--;
+            if (h < 0) {
+                h = 5;
+                m = 59;
+                s = 45;
+            }
+        }
+    }
+    
+    hours.textContent = h.toString();
+    minutes.textContent = m.toString().padStart(2, '0');
+    seconds.textContent = s.toString().padStart(2, '0');
+}
+
+setInterval(updateTimer, 1000);
+</script>
+{% endblock content %}
