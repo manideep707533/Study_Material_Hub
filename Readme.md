@@ -84,6 +84,7 @@ study-material-hub/
 └── requirements.txt
 
 **7. Developer**
+
 Name: Sri Vidya 
 
 Email: chintanippusrividya@gmail.com
