@@ -29,7 +29,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/Sanju1622/Study_Material_Hub.git
+git clone https://github.com/manideep707533/Study_Material_Hub.git
 cd Study_Material_Hub
 Create virtual environment and activate it:
 
@@ -68,6 +68,6 @@ study-material-hub/
 Contributions are welcome! Feel free to fork this repo and raise a pull request.
 
 📬 Contact
-Developer: Sanju
-GitHub: github.com/sanjugithub
-Email: (andelasanjay@gmail.com)
+Developer: Manideep
+GitHub: github.com/manideep707533
+Email: (manichitumala@gmail.com)
