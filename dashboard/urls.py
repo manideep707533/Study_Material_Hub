@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.views.generic import TemplateView
 
+
 urlpatterns = [
     path('', views.home, name='home'),
     path('notes', views.notes, name='notes'),
@@ -20,4 +21,6 @@ urlpatterns = [
     path('delete_todo/<int:pk>', views.delete_todo, name='delete-todo'),
     path('update_todo/<int:pk>', views.update_todo, name='update-todo'),
     path('update_homework/<int:pk>', views.update_homework, name='update-homework'),
+    
+
 ]

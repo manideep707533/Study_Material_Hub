@@ -7,6 +7,7 @@ import wikipedia
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views import generic
+from wikipedia.exceptions import PageError, DisambiguationError
 
 
 def home(request):
@@ -129,19 +130,26 @@ def todo(request):
 
 
 def dictionary(request):
+    context = {}
     if request.method == "POST":
-        text = request.POST['text']
+        text = request.POST.get('text', '')
         form = DashboardForm(request.POST)
 
-        url = "https://api.dictionaryapi.dev/api/v2/entries/en_US/"+text
+        url = f"https://api.dictionaryapi.dev/api/v2/entries/en_US/{text}"
         r = requests.get(url)
-        answer = r.json()
-        try:
-            phonetics = answer[0]['phonetics'][0]['text']
-            audio = answer[0]['phonetics'][0]['audio']
-            definition = answer[0]['meanings'][0]['definitions'][0]['definition']
-            example = answer[0]['meanings'][0]['definitions'][0]['example']
-            synonyms = answer[0]['meanings'][0]['definitions'][0]['synonyms']
+
+        if r.status_code == 200:
+            answer = r.json()
+            word_data = answer[0]
+
+            phonetics = word_data.get('phonetics', [{}])[0].get('text', '')
+            audio = word_data.get('phonetics', [{}])[0].get('audio', '')
+            meaning_data = word_data.get('meanings', [{}])[0].get('definitions', [{}])[0]
+
+            definition = meaning_data.get('definition', 'No definition available.')
+            example = meaning_data.get('example', 'No example available.')
+            synonyms = meaning_data.get('synonyms', [])
+
             context = {
                 'form': form,
                 'input': text,
@@ -151,33 +159,45 @@ def dictionary(request):
                 'example': example,
                 'synonyms': synonyms,
             }
-        except:
+        else:
             context = {
                 'form': form,
-                'input': '',
+                'input': text,
+                'error': "Sorry, couldn't fetch the meaning. Please try another word later."
             }
-        return render(request, 'dashboard/dictionary.html', context)
     else:
         form = DashboardForm()
-    return render(request, 'dashboard/dictionary.html', {'form': form})
+        context = {'form': form}
+
+    return render(request, 'dashboard/dictionary.html', context)
 
 
 def wiki(request):
     if request.method == "POST":
         text = request.POST['text']
         form = DashboardForm(request.POST)
-        search = wikipedia.page(text)
-        context = {
-            'form': form,
-            'title': search.title,
-            'link': search.url,
-            'details': search.summary,
-        }
+        try:
+            search = wikipedia.page(text)
+            context = {
+                'form': form,
+                'title': search.title,
+                'link': search.url,
+                'details': search.summary,
+            }
+        except PageError:
+            context = {
+                'form': form,
+                'error': "No Wikipedia page found for your query. Try a different keyword."
+            }
+        except DisambiguationError as e:
+            context = {
+                'form': form,
+                'error': f"This term is ambiguous. Try one of these: {', '.join(e.options[:5])}"
+            }
         return render(request, 'dashboard/wiki.html', context)
     else:
         form = DashboardForm()
     return render(request, 'dashboard/wiki.html', {'form': form})
-
 
 
 def youtube(request):
@@ -186,8 +206,7 @@ def youtube(request):
         text = request.POST['text']
         videos = VideosSearch(text, limit=5)
         result_list = []
-        print(videos.result())
-        for i in videos.result()['result']:
+        for i in videos.result().get('result', []):
             result_dict = {
                 'input': text,
                 'title': i['title'],
@@ -199,15 +218,18 @@ def youtube(request):
                 'published': i['publishedTime'],
             }
             desc = ''
-
-            for j in i['descriptionSnippet']:
-                desc += j['text']
+            if 'descriptionSnippet' in i and i['descriptionSnippet']:
+                for j in i['descriptionSnippet']:
+                    desc += j['text']
+            else:
+                desc = 'No description available.'
             result_dict['description'] = desc
             result_list.append(result_dict)
         return render(request, 'dashboard/youtube.html', {'form': form, 'results': result_list})
     else:
         form = DashboardForm()
     return render(request, 'dashboard/youtube.html', {'form': form})
+
 
 
 def conversion(request):
@@ -267,7 +289,8 @@ def books(request):
                 'count': answer['items'][i]['volumeInfo'].get('pageCount'),
                 'categories': answer['items'][i]['volumeInfo'].get('categories'),
                 'rating': answer['items'][i]['volumeInfo'].get('averageRating'),
-                'thumbnail': answer['items'][i]['volumeInfo'].get('imageLinks').get('thumbnail'),
+                'imageLinks': answer['items'][i]['volumeInfo'].get('imageLinks', {}),
+                'thumbnail': answer['items'][i]['volumeInfo'].get('imageLinks', {}).get('thumbnail'),
                 'preview': answer['items'][i]['volumeInfo'].get('previewLink')
             }
             result_list.append(result_dict)

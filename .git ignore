@@ -1,8 +1,36 @@
+# Python
 *.pyc
 __pycache__/
+*.pyo
+*.pyd
+
+# Django
 db.sqlite3
-.env
-staticfiles/
-media/
-*.log
 *.sqlite3
+*.log
+.env
+media/
+staticfiles/
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# Virtual environment
+venv/
+env/
+
+# Node modules (if used)
+node_modules/
+
+# JetBrains IDEs
+.idea/
+
+# Migrations (optional – remove this line if you want to include migrations)
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# PyCharm project settings
+*.iml
