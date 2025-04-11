@@ -83,8 +83,11 @@ study-material-hub/
 
 └── requirements.txt
 
-**7. Developer**
+**7. Developers**
 
-Name: Sri Vidya 
+Names: Sri Vidya , Manideep , Sanjay, Niheeth
 
 Email: chintanippusrividya@gmail.com
+      , manichintumala@gmail.com
+       , niheethgumidyala@gmail.com
+       ,andelasanjay@gmail.com
